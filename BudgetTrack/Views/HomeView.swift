@@ -9,78 +9,92 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var viewModel = BudgetViewModel()
     @State private var showAddTransaction = false
+    @State private var selectedTab = 0
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    
-                    // Bakiye kartı
-                    BalanceCard(viewModel: viewModel)
-                    
-                    // Gelir / Gider özeti
-                    HStack(spacing: 16) {
-                        SummaryCard(
-                            title: "Gelir",
-                            amount: viewModel.totalIncome,
-                            color: .green,
-                            icon: "arrow.down.circle.fill"
-                        )
-                        SummaryCard(
-                            title: "Gider",
-                            amount: viewModel.totalExpense,
-                            color: .red,
-                            icon: "arrow.up.circle.fill"
-                        )
-                    }
-                    
-                    // Son işlemler
-                    if !viewModel.transactions.isEmpty {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Son İşlemler")
-                                .font(.headline)
-                                .padding(.horizontal)
-                            
-                            ForEach(viewModel.recentTransactions) { transaction in
-                                TransactionRow(transaction: transaction) {
-                                    Task {
-                                        await viewModel.deleteTransaction(transaction)
+        TabView(selection: $selectedTab) {
+            
+            // Ana Sayfa
+            NavigationStack {
+                ScrollView {
+                    VStack(spacing: 20) {
+                        BalanceCard(viewModel: viewModel)
+                        
+                        HStack(spacing: 16) {
+                            SummaryCard(
+                                title: "Gelir",
+                                amount: viewModel.totalIncome,
+                                color: .green,
+                                icon: "arrow.down.circle.fill"
+                            )
+                            SummaryCard(
+                                title: "Gider",
+                                amount: viewModel.totalExpense,
+                                color: .red,
+                                icon: "arrow.up.circle.fill"
+                            )
+                        }
+                        
+                        if !viewModel.transactions.isEmpty {
+                            VStack(alignment: .leading, spacing: 12) {
+                                Text("Son İşlemler")
+                                    .font(.headline)
+                                    .padding(.horizontal)
+                                
+                                ForEach(viewModel.recentTransactions) { transaction in
+                                    TransactionRow(transaction: transaction) {
+                                        Task {
+                                            await viewModel.deleteTransaction(transaction)
+                                        }
                                     }
                                 }
                             }
+                        } else {
+                            VStack(spacing: 12) {
+                                Image(systemName: "creditcard")
+                                    .font(.system(size: 50))
+                                    .foregroundStyle(.secondary)
+                                Text("Henüz işlem yok")
+                                    .foregroundStyle(.secondary)
+                            }
+                            .padding(.top, 40)
                         }
-                    } else {
-                        VStack(spacing: 12) {
-                            Image(systemName: "creditcard")
-                                .font(.system(size: 50))
-                                .foregroundStyle(.secondary)
-                            Text("Henüz işlem yok")
-                                .foregroundStyle(.secondary)
+                    }
+                    .padding()
+                }
+                .navigationTitle("BudgetTrack")
+                .navigationBarTitleDisplayMode(.large)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            showAddTransaction = true
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.title2)
+                                .foregroundStyle(.blue)
                         }
-                        .padding(.top, 40)
                     }
                 }
-                .padding()
-            }
-            .navigationTitle("BudgetTrack")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showAddTransaction = true
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.title2)
-                            .foregroundStyle(.blue)
-                    }
+                .sheet(isPresented: $showAddTransaction) {
+                    AddTransactionView(viewModel: viewModel)
+                }
+                .task {
+                    await viewModel.fetchTransactions()
                 }
             }
-            .sheet(isPresented: $showAddTransaction) {
-                AddTransactionView(viewModel: viewModel)
+            .tabItem {
+                Label("Ana Sayfa", systemImage: "house.fill")
             }
-            .task {
-                await viewModel.fetchTransactions()
+            .tag(0)
+            
+            // Grafikler
+            NavigationStack {
+                ChartsView(viewModel: viewModel)
             }
+            .tabItem {
+                Label("Grafikler", systemImage: "chart.pie.fill")
+            }
+            .tag(1)
         }
     }
 }
