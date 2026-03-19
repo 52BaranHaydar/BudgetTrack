@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		952555D52F6C5B2100A94ECF /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 952555D42F6C5B2100A94ECF /* FirebaseCore */; };
+		952555E12F6C65A800A94ECF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 952555E02F6C65A800A94ECF /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				952555D52F6C5B2100A94ECF /* FirebaseCore in Frameworks */,
+				952555E12F6C65A800A94ECF /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +81,7 @@
 			name = BudgetTrack;
 			packageProductDependencies = (
 				952555D42F6C5B2100A94ECF /* FirebaseCore */,
+				952555E02F6C65A800A94ECF /* FirebaseFirestore */,
 			);
 			productName = BudgetTrack;
 			productReference = 956691F92F6C35BA0042F371 /* BudgetTrack.app */;
@@ -366,6 +369,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 952555D22F6C5A8100A94ECF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCore;
+		};
+		952555E02F6C65A800A94ECF /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 952555D22F6C5A8100A94ECF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
