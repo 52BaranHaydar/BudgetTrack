@@ -16,6 +16,8 @@ struct Transaction: Identifiable, Codable{
     var category : Category
     var type :TransactionType
     var location : String?
+    var latitude: Double?
+    var longitude: Double?
     
     enum TransactionType: String, Codable, CaseIterable{
         case income  = "Gelir"
@@ -69,7 +71,9 @@ struct Transaction: Identifiable, Codable{
         date : Date = Date(),
         category: Category,
         type: TransactionType,
-        location:String? = nil
+        location:String? = nil,
+        latitude: Double? = nil,
+        longitude: Double? = nil
     ) {
         self.id = id
         self.title = title
@@ -78,6 +82,8 @@ struct Transaction: Identifiable, Codable{
         self.category = category
         self.type = type
         self.location = location
+        self.latitude = latitude
+        self.longitude = longitude
     }
     
 }

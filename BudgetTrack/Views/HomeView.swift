@@ -95,6 +95,14 @@ struct HomeView: View {
                 Label("Grafikler", systemImage: "chart.pie.fill")
             }
             .tag(1)
+            
+            NavigationStack {
+                MapView(viewModel: viewModel)
+                }
+                .tabItem {
+                    Label("Harita", systemImage: "map.fill")
+                }
+                .tag(2)
         }
     }
 }
