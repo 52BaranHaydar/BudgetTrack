@@ -24,7 +24,9 @@ class FirebaseService: ObservableObject {
             "date": Timestamp(date: transaction.date),
             "category": transaction.category.rawValue,
             "type": transaction.type.rawValue,
-            "location": transaction.location ?? ""
+            "location": transaction.location ?? "",
+            "latitude" : transaction.latitude ?? 0.0,
+            "longitude" : transaction.longitude ?? 0.0
         ]
         try await db.collection(collectionName).document(transaction.id).setData(data)
     }
@@ -53,7 +55,9 @@ class FirebaseService: ObservableObject {
                 date: timestamp.dateValue(),
                 category: category,
                 type: type,
-                location: data["location"] as? String
+                location: data["location"] as? String,
+                latitude: data["latitude"] as? Double,
+                longitude: data["longitude"] as? Double
             )
         }
     }
