@@ -2,9 +2,6 @@
 
 A modern iOS budget and finance tracking app built with SwiftUI, Firebase, and Swift Charts.
 
-## Screenshots
-> Coming soon
-
 ## Features
 - 💳 Income & expense tracking
 - 📊 Visual charts with Swift Charts (bar, pie, line)
