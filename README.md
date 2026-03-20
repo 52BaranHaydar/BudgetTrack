@@ -20,6 +20,16 @@ A modern iOS budget and finance tracking app built with SwiftUI, Firebase, and S
 - **MVVM Architecture** — Clean, testable code
 - **Swift Concurrency** — async/await
 
+## Screenshots
+
+<p float="left">
+  <img src="Screenshots/foto1.png" width="200"/>
+  <img src="Screenshots/foto2.png" width="200"/>
+  <img src="Screenshots/foto3.png" width="200"/>
+  <img src="Screenshots/foto4.png" width="200"/>
+</p>
+
+
 ## Requirements
 - iOS 17+
 - Xcode 15+
